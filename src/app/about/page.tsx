@@ -1,6 +1,30 @@
+"use client"
+
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
 import { Target, Heart, Shield, Users, Award, Lightbulb } from "lucide-react"
+import { motion, Variants } from "framer-motion"
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12
+    }
+  }
+}
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6
+    }
+  }
+}
 
 const values = [
   { icon: Target, title: "Excellence", description: "We set the highest standards in everything we do, from room design to resident services." },
@@ -85,17 +109,28 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
             {values.map(({ icon: Icon, title, description }) => (
-              <div key={title} className="p-6 md:p-8 rounded-2xl" style={{ background: "#1e293b", border: "1px solid rgba(148, 163, 184, 0.08)" }}>
+              <motion.div 
+                key={title} 
+                className="p-6 md:p-8 rounded-2xl" 
+                style={{ background: "#1e293b", border: "1px solid rgba(148, 163, 184, 0.08)" }}
+                variants={itemVariants}
+              >
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style={{ background: "rgba(245, 158, 11, 0.12)" }}>
                   <Icon className="w-6 h-6" style={{ color: "#f59e0b" }} />
                 </div>
                 <h3 className="font-display text-lg font-bold mb-3" style={{ color: "#f8fafc" }}>{title}</h3>
                 <p className="font-body text-base" style={{ color: "#94a3b8", lineHeight: 1.6 }}>{description}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 

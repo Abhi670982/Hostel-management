@@ -4,6 +4,28 @@ import { useState } from "react"
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
 import { LayoutDashboard, BedDouble, CalendarCheck, Users, Settings, LogOut, TrendingUp, DollarSign, Star, ArrowUpRight } from "lucide-react"
+import { motion, Variants } from "framer-motion"
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08
+    }
+  }
+}
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4
+    }
+  }
+}
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Overview", id: "overview" },
@@ -83,9 +105,20 @@ export default function AdminPage() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mb-16">
+            <motion.div 
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mb-16"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
               {stats.map(({ icon: Icon, label, value, change }) => (
-                <div key={label} className="p-6 md:p-8 rounded-2xl" style={{ background: "#1e293b", border: "1px solid rgba(148, 163, 184, 0.08)" }}>
+                <motion.div 
+                  key={label} 
+                  className="p-6 md:p-8 rounded-2xl transition-all duration-300 hover:transform hover:scale-105" 
+                  style={{ background: "#1e293b", border: "1px solid rgba(148, 163, 184, 0.08)" }}
+                  variants={itemVariants}
+                >
                   <div className="flex items-center justify-between mb-6">
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(245, 158, 11, 0.12)" }}>
                       <Icon className="w-5 h-5" style={{ color: "#f59e0b" }} />
@@ -97,9 +130,9 @@ export default function AdminPage() {
                   </div>
                   <p className="font-display text-2xl font-bold mb-1" style={{ color: "#f8fafc" }}>{value}</p>
                   <p className="font-body text-sm" style={{ color: "#94a3b8" }}>{label}</p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             {/* Recent Bookings */}
             <div className="rounded-2xl overflow-hidden" style={{ background: "#1e293b", border: "1px solid rgba(148, 163, 184, 0.08)" }}>

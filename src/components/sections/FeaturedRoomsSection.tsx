@@ -1,5 +1,27 @@
 import Link from "next/link"
 import { Star, Users, MapPin, ArrowRight } from "lucide-react"
+import { motion, Variants } from "framer-motion"
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15
+    }
+  }
+}
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6
+    }
+  }
+}
 
 const rooms = [
   {
@@ -66,14 +88,20 @@ export default function FeaturedRoomsSection() {
         </div>
 
         {/* Rooms Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
           {rooms.map((room) => (
-            <Link
-              key={room.id}
-              href={`/rooms/${room.id}`}
-              className="card-luxury group"
-              style={{ textDecoration: "none" }}
-            >
+            <motion.div key={room.id} variants={itemVariants}>
+              <Link
+                href={`/rooms/${room.id}`}
+                className="card-luxury group block"
+                style={{ textDecoration: "none" }}
+              >
               {/* Image */}
               <div className="relative h-64 overflow-hidden">
                 <img
@@ -134,9 +162,10 @@ export default function FeaturedRoomsSection() {
                   </span>
                 </div>
               </div>
-            </Link>
+              </Link>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

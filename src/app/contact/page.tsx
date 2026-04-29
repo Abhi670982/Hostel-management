@@ -4,6 +4,28 @@ import { useState } from "react"
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
 import { MapPin, Phone, Mail, Clock, Send, MessageSquare } from "lucide-react"
+import { motion, Variants } from "framer-motion"
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5
+    }
+  }
+}
 
 const contactInfo = [
   { icon: MapPin, title: "Visit Us", details: ["123 University Avenue", "Mumbai, Maharashtra 400001"] },
@@ -45,9 +67,20 @@ export default function ContactPage() {
       {/* Contact Info Cards */}
       <section className="py-20 md:py-28" style={{ background: "#0f172a" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mb-20">
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mb-20"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+          >
             {contactInfo.map(({ icon: Icon, title, details }) => (
-              <div key={title} className="p-6 md:p-8 rounded-2xl text-center" style={{ background: "#1e293b", border: "1px solid rgba(148, 163, 184, 0.08)" }}>
+              <motion.div 
+                key={title} 
+                className="p-6 md:p-8 rounded-2xl text-center transition-all duration-300 hover:transform hover:scale-105" 
+                style={{ background: "#1e293b", border: "1px solid rgba(148, 163, 184, 0.08)" }}
+                variants={itemVariants}
+              >
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-6" style={{ background: "rgba(245, 158, 11, 0.12)" }}>
                   <Icon className="w-6 h-6" style={{ color: "#f59e0b" }} />
                 </div>
@@ -55,9 +88,9 @@ export default function ContactPage() {
                 {details.map((d) => (
                   <p key={d} className="font-body text-sm" style={{ color: "#94a3b8" }}>{d}</p>
                 ))}
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Contact Form + Map */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">

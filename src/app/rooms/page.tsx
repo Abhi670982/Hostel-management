@@ -5,6 +5,28 @@ import Link from "next/link"
 import { Star, Users, MapPin, Bath, ArrowRight, Search, SlidersHorizontal } from "lucide-react"
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
+import { motion, Variants } from "framer-motion"
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5
+    }
+  }
+}
 
 const rooms = [
   {
@@ -165,14 +187,20 @@ export default function RoomsPage() {
             Showing <span className="font-semibold" style={{ color: "#f8fafc" }}>{filtered.length}</span> rooms available
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+          >
             {filtered.map((room) => (
-              <Link
-                key={room.id}
-                href={`/rooms/${room.id}`}
-                className="card-luxury group"
-                style={{ textDecoration: "none", opacity: room.available ? 1 : 0.6 }}
-              >
+              <motion.div key={room.id} variants={itemVariants}>
+                <Link
+                  href={`/rooms/${room.id}`}
+                  className="card-luxury group block"
+                  style={{ textDecoration: "none", opacity: room.available ? 1 : 0.6 }}
+                >
                 {/* Image */}
                 <div className="relative h-64 overflow-hidden">
                   <img
@@ -236,8 +264,9 @@ export default function RoomsPage() {
                   </div>
                 </div>
               </Link>
-            ))}
-          </div>
+            </motion.div>
+          ))}
+        </motion.div>
         </div>
       </section>
       <Footer />

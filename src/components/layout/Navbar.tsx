@@ -6,6 +6,16 @@ import { Menu, X, ChevronDown } from "lucide-react"
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  // Handle scroll for navbar background
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -21,11 +31,12 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50"
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        background: "rgba(15, 23, 42, 0.85)",
+        background: scrolled ? "rgba(15, 23, 42, 0.95)" : "rgba(15, 23, 42, 0.3)",
         backdropFilter: "blur(16px)",
-        borderBottom: "1px solid rgba(148, 163, 184, 0.08)",
+        borderBottom: scrolled ? "1px solid rgba(148, 163, 184, 0.12)" : "1px solid rgba(148, 163, 184, 0.05)",
+        boxShadow: scrolled ? "0 4px 24px rgba(0, 0, 0, 0.15)" : "none",
       }}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">

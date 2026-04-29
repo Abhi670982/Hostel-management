@@ -101,11 +101,31 @@ body {
   transition: all 0.3s ease;
   text-decoration: none;
   min-height: 44px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--accent-light), var(--accent-from));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover::before {
+  opacity: 1;
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(245, 158, 11, 0.35);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(245, 158, 11, 0.4);
+}
+
+.btn-primary > * {
+  position: relative;
+  z-index: 1;
 }
 
 .btn-secondary {
@@ -130,7 +150,9 @@ body {
 .btn-secondary:hover {
   border-color: var(--accent-from);
   color: var(--accent-light);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
+  background: rgba(245, 158, 11, 0.05);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.15);
 }
 
 /* --- Cards --- */
@@ -139,16 +161,24 @@ body {
   border: 1px solid var(--border-subtle);
   border-radius: 1rem;
   overflow: hidden;
-  transition: all 0.4s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: var(--shadow-card);
   min-width: 0;
   word-wrap: break-word;
 }
 
 .card-luxury:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   border-color: var(--border-gold);
+}
+
+.card-luxury img {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-luxury:hover img {
+  transform: scale(1.08);
 }
 
 /* --- Image Overlay --- */
@@ -163,14 +193,19 @@ body {
   inset: 0;
   background: linear-gradient(to top, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.2) 50%, transparent 100%);
   pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.img-overlay:hover::after {
+  opacity: 0.8;
 }
 
 .img-overlay img {
-  transition: transform 0.6s ease;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .img-overlay:hover img {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 /* --- Badge --- */
@@ -184,6 +219,13 @@ body {
   background: linear-gradient(to right, var(--accent-from), var(--accent-to));
   color: var(--bg-primary);
   letter-spacing: 0.025em;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
+}
+
+.badge-gold:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.35);
 }
 
 .badge-outline {
@@ -197,6 +239,13 @@ body {
   color: var(--accent-light);
   border: 1px solid var(--border-gold);
   letter-spacing: 0.025em;
+  transition: all 0.3s ease;
+}
+
+.badge-outline:hover {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--accent-from);
+  transform: translateY(-1px);
 }
 
 /* --- Section Divider --- */
@@ -229,6 +278,15 @@ body {
   100% { background-position: 200% center; }
 }
 
+@keyframes glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+  }
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 0.7s ease-out forwards;
 }
@@ -240,6 +298,10 @@ body {
 .animate-shimmer {
   background-size: 200% auto;
   animation: shimmer 3s linear infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
 }
 
 /* --- Scrollbar --- */
@@ -264,4 +326,19 @@ body {
 ::selection {
   background: rgba(245, 158, 11, 0.3);
   color: var(--text-primary);
+}
+
+/* --- Input Focus Effects --- */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-from) !important;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* --- Smooth Transitions --- */
+a, button, input, textarea, select {
+  transition: all 0.3s ease;
 }

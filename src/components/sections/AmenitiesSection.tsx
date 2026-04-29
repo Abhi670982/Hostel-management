@@ -1,4 +1,26 @@
 import { Wifi, Wind, Dumbbell, Utensils, Shield, Coffee, BookOpen, Waves } from "lucide-react"
+import { motion, Variants } from "framer-motion"
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12
+    }
+  }
+}
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6
+    }
+  }
+}
 
 const amenities = [
   {
@@ -56,9 +78,19 @@ export default function AmenitiesSection() {
         </div>
 
         {/* Amenities Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
           {amenities.map(({ icon: Icon, title, description, image }) => (
-            <div key={title} className="card-luxury img-overlay group">
+            <motion.div 
+              key={title} 
+              className="card-luxury img-overlay group"
+              variants={itemVariants}
+            >
               {/* Image */}
               <div className="relative h-56 overflow-hidden">
                 <img
@@ -85,9 +117,9 @@ export default function AmenitiesSection() {
                   {description}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
